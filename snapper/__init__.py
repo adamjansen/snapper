@@ -43,13 +43,15 @@ class Snapper(object):
         args = ['/sbin/zfs', 'list', '-t', 'snapshot']
         output = self.execute(args)
         snapshots = []
+        if 'no datasets available' in output:
+            return snapshots
         for line in output.splitlines():
             name, _used, _avail, _refer, _mountpoint = line.split()
             if '@' not in name:
                 continue
             if not dataset or dataset in name and not tag or tag in name:
                 snapshots.append(name)
-         return sorted(snapshots)
+        return sorted(snapshots, reverse=True)
 
 
 pass_snapper = click.make_pass_decorator(Snapper)
@@ -72,9 +74,9 @@ def cli(ctx, verbose, dryrun):
 
 
 @cli.command()
-@click.argument('dataset', help='full dataset name (includes pool)')
-@click.argument('tag', help='snapshot name (daily, hourly, etc)')
-@click.argument('count', help='Number of snapshots to keep')
+@click.argument('dataset')
+@click.argument('tag')
+@click.argument('count', type=int)
 @pass_snapper
 def snap(snapper, dataset, tag, count):
     """Make a snapshot.
@@ -91,12 +93,12 @@ def snap(snapper, dataset, tag, count):
     stale_snapshots = existing_snapshots[count-1:]
     for stale_snap in stale_snapshots:
         snapper.destroy_snapshot(stale_snap)
-     snapper.create_snapshot(snapshot_path)
+    snapper.create_snapshot(snapshot_path)
 
 
 @cli.command()
-@click.argument('dataset', help='full dataset name (includes pool)')
-@click.argument('tag', help='tag to show')
+@click.argument('dataset')
+@click.argument('tag')
 @pass_snapper
 def list(snapper, dataset, tag):
     """List current snapshots."""

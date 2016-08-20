@@ -1,0 +1,18 @@
+# Snapper
+
+A simple tool for maintaining snapshots of ZFS filesystems.
+
+This tool is designed to be ran from cron, so that periodic snapshots
+of a zfs dataset can be maintained.
+
+```
+snapper snap tank/home hourly 24
+```
+
+crontab:
+```
+@hourly snapper snap tank/home hourly 24
+@daily snapper snap tank/home daily 7
+@monthly snapper snap tank/home monthly 12
+@yearly snapper snap tank/home 10
+```

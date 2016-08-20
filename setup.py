@@ -9,11 +9,11 @@ setup(
     ],
     url='',
     license='MIT',
-    author='adam',
-    author_email='',
-    description='',
+    author='Adam Jansen',
+    author_email='adam@adamjansen.com',
+    description='Simple ZFS snapshot tool',
     entry_points='''
         [console_scripts]
-        snapper=snapper.cli
+        snapper=snapper:cli
     '''
 )
