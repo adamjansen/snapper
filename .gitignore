@@ -1,0 +1,24 @@
+# Basics
+*.py[cod]
+*.pyc
+__pycache__
+
+.venv
+
+# Logs
+*.log
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Pycharm
+.idea
+
+# Vim
+
+*~
+*.swp
+*.swo
