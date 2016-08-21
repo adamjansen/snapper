@@ -49,7 +49,7 @@ class Snapper(object):
             name, _used, _avail, _refer, _mountpoint = line.split()
             if '@' not in name:
                 continue
-            if not dataset or dataset in name and not tag or tag in name:
+            if (not dataset or dataset in name) and (not tag or tag in name):
                 snapshots.append(name)
         return sorted(snapshots, reverse=True)
 
